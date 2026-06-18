@@ -8,17 +8,23 @@ import FinanceHealthCard from '../components/controlTower/FinanceHealthCard'
 import LiquiditySummaryCard from '../components/controlTower/LiquiditySummaryCard'
 import OpportunityList from '../components/controlTower/OpportunityList'
 import RiskList from '../components/controlTower/RiskList'
+import CollectionsSummaryCard from '../components/collections/CollectionsSummaryCard'
+import TreasurySummaryCard from '../components/treasury/TreasurySummaryCard'
 import {
   useBankPosition,
   useFinanceHealth,
 } from '../hooks/useBankPosition'
 import { useBlockedCash } from '../hooks/useBlockedCash'
 import { useLiquidity } from '../hooks/useLiquidity'
+import { useCollections } from '../hooks/useCollections'
+import { useTreasury } from '../hooks/useTreasury'
 
 export default function DashboardPage(): ReactElement {
   const bankPosition = useBankPosition()
   const liquidity = useLiquidity()
   const blockedCash = useBlockedCash()
+  const collections = useCollections()
+  const treasury = useTreasury()
   const financeHealth = useFinanceHealth(
     blockedCash.score.value,
     bankPosition.score.value,
@@ -58,6 +64,12 @@ export default function DashboardPage(): ReactElement {
           <BlockedCashSummaryCard result={blockedCash} />
         </div>
 
+        <div className="md:col-span-4">
+          <CollectionsSummaryCard summary={collections.output} compact />
+        </div>
+        <div className="md:col-span-4">
+          <TreasurySummaryCard summary={treasury.output} compact />
+        </div>
         <div className="md:col-span-4">
           <DecisionList
             recommendations={[
