@@ -3,10 +3,11 @@ import { Search, Bell } from 'lucide-react'
 
 export interface HeaderProps {
   title: string
+  breadcrumb?: string[]
   userName?: string
 }
 
-export default function Header({ title, userName = 'U' }: HeaderProps): ReactElement {
+export default function Header({ title, breadcrumb, userName = 'U' }: HeaderProps): ReactElement {
   const today = new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
 
   return (
@@ -14,7 +15,7 @@ export default function Header({ title, userName = 'U' }: HeaderProps): ReactEle
       <div className="flex items-center gap-6">
         <div>
           <h1 className="text-lg font-semibold">{title}</h1>
-          <div className="text-xs text-slate-400">Dashboard / Home</div>
+          <div className="text-xs text-slate-400">{breadcrumb?.join(' / ') ?? 'Dashboard / Home'}</div>
         </div>
 
         <div className="hidden sm:flex items-center bg-slate-100 dark:bg-slate-900 rounded-md px-3 py-1 border border-transparent dark:border-slate-700">

@@ -188,6 +188,36 @@ Untracked files:
 ```
 
 **Build Status**: ✅ Compiles successfully with `npm run build`
+# PR-008 – Executive KPI Dashboard
+
+Completed:
+- Added Executive KPI Dashboard
+- Created dashboard component architecture
+- Introduced:
+  - ExecutiveKPIs
+  - KPIGrid
+  - KPIStatCard
+- Added typed dashboard metrics
+- DashboardPage is now an orchestrator only
+
+Files Created
+- src/components/dashboard/ExecutiveKPIs.tsx
+- src/components/dashboard/KPIGrid.tsx
+- src/components/dashboard/KPIStatCard.tsx
+- src/data/dashboardMetrics.ts
+- src/types/dashboard.ts
+
+Files Modified
+- src/pages/DashboardPage.tsx
+
+Architecture Decision
+Dashboard widgets will live under:
+src/components/dashboard/
+
+Pages should orchestrate widgets rather than contain implementation logic.
+
+Next PR
+PR-009 – Dashboard Charts
 
 ## 8. Completed Pull Requests
 
