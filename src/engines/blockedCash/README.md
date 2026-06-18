@@ -6,8 +6,9 @@ The Blocked Cash Engine determines how much of a project's requested RERA
 withdrawal is currently withdrawable, how much is blocked, why it is blocked,
 and the actions required to unlock it.
 
-The engine contains pure TypeScript business logic and has no dependency on
-React, APIs, routing, or application state.
+The engine implements the shared `FinanceEngine` contract and contains pure
+TypeScript business logic with no dependency on React, APIs, routing, or
+application state.
 
 ## Inputs
 
@@ -42,16 +43,18 @@ approved amount, and RERA balance.
 
 ## Outputs
 
-`evaluateProject()` returns:
+`evaluateProject()` and `blockedCashEngine.evaluate()` return the shared
+`FinanceResult` structure containing:
 
-- Withdrawable amount
-- Blocked amount
-- Blocked reasons
-- Recommended actions
-- Confidence level
+- A blocked cash output with withdrawable amount, blocked amount, blocked
+  reasons, and recommended actions
+- A withdrawal decision
+- Structured recommendations
+- Structured financial risks
+- A normalized score and confidence level
 
-Confidence is high when all eligibility rules pass, medium when one rule
-fails, and low when multiple rules fail.
+The exported `blockedCashEngine` can be registered in `EngineRegistry` beside
+future liquidity, collections, payment, and compliance engines.
 
 ## Future SAP Integration
 

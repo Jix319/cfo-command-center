@@ -1,10 +1,10 @@
+import type { FinanceResult } from '../core/FinanceResult'
+
 export type FinanceCertificateStatus =
   | 'approved'
   | 'pending'
   | 'rejected'
   | 'not_submitted'
-
-export type BlockedCashConfidenceLevel = 'high' | 'medium' | 'low'
 
 export interface ProjectWithdrawalPosition {
   projectName: string
@@ -29,11 +29,12 @@ export interface WithdrawalEligibilityRule {
   evaluate: (project: ProjectWithdrawalPosition) => WithdrawalRuleFinding
 }
 
-export interface BlockedCashEvaluation {
+export interface BlockedCashOutput {
   projectName: string
   withdrawableAmount: number
   blockedAmount: number
   blockedReasons: string[]
   recommendedActions: string[]
-  confidenceLevel: BlockedCashConfidenceLevel
 }
+
+export type BlockedCashEvaluation = FinanceResult<BlockedCashOutput>
