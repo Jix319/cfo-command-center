@@ -4,7 +4,9 @@ import ChartContainer from '../components/charts/ChartContainer'
 import SalesTrendChart from '../components/charts/SalesTrendChart'
 import CashFlowChart from '../components/charts/CashFlowChart'
 import { SALES_TREND_DATA, CASH_FLOW_DATA } from '../data/chartData'
-import DashboardCard from '../components/layout/DashboardCard'
+import CriticalAlertsWidget from '../components/dashboard/CriticalAlertsWidget'
+import UpcomingPaymentsWidget from '../components/dashboard/UpcomingPaymentsWidget'
+import RecentApprovalsWidget from '../components/dashboard/RecentApprovalsWidget'
 
 export default function DashboardPage(): ReactElement {
   return (
@@ -24,13 +26,13 @@ export default function DashboardPage(): ReactElement {
         </div>
 
         <div className="md:col-span-4 col-span-1">
-          <DashboardCard title="Critical Alerts" />
+          <CriticalAlertsWidget />
         </div>
         <div className="md:col-span-4 col-span-1">
-          <DashboardCard title="Upcoming Payments" />
+          <UpcomingPaymentsWidget />
         </div>
         <div className="md:col-span-4 col-span-1">
-          <DashboardCard title="Recent Approvals" />
+          <RecentApprovalsWidget />
         </div>
       </div>
     </div>
