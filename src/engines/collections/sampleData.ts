@@ -1,93 +1,55 @@
-import type { Customer } from '../../domain/entities/Customer'
-import type { Project } from '../../domain/entities/Project'
-import type { Unit } from '../../domain/entities/Unit'
+import { DEMO_UNITS } from '../../demo/bookings'
+import { DEMO_COLLECTION_RECOVERY_ITEMS } from '../../demo/collections'
+import { DEMO_CUSTOMERS } from '../../demo/customers'
+import {
+  DEMO_AS_OF_DATE,
+  DEMO_CURRENCY,
+  DEMO_GROUP_ID,
+} from '../../demo/group'
+import { DEMO_PROJECTS } from '../../demo/projects'
 import type { CollectionCase, CollectionsInput } from './types'
 
-const INR = 'INR'
-
-const projects: Project[] = [
-  {
-    id: 'project-heights',
-    legalEntityId: 'entity-projects',
-    name: 'Aurora Heights',
-    status: 'active',
-    location: 'Mumbai',
-  },
-  {
-    id: 'project-greens',
-    legalEntityId: 'entity-projects',
-    name: 'Aurora Greens',
-    status: 'active',
-    location: 'Pune',
-  },
-]
-
-const customers: Customer[] = [
-  { id: 'customer-1', name: 'Rohan Mehta', customerType: 'individual' },
-  { id: 'customer-2', name: 'Ananya Shah', customerType: 'individual' },
-  { id: 'customer-3', name: 'Vikram Rao', customerType: 'individual' },
-  { id: 'customer-4', name: 'Neha Kapoor', customerType: 'individual' },
-  { id: 'customer-5', name: 'Kunal Industries', customerType: 'organization' },
-  { id: 'customer-6', name: 'Priya Nair', customerType: 'individual' },
-  { id: 'customer-7', name: 'Arjun Malhotra', customerType: 'individual' },
-  { id: 'customer-8', name: 'Sapphire Ventures', customerType: 'organization' },
-]
-
-const units: Unit[] = [
-  { id: 'unit-1', projectId: 'project-heights', unitNumber: 'A-1204', unitType: '3 BHK', status: 'booked' },
-  { id: 'unit-2', projectId: 'project-heights', unitNumber: 'B-0802', unitType: '2 BHK', status: 'booked' },
-  { id: 'unit-3', projectId: 'project-greens', unitNumber: 'C-1501', unitType: '3 BHK', status: 'booked' },
-  { id: 'unit-4', projectId: 'project-greens', unitNumber: 'D-0605', unitType: '2 BHK', status: 'booked' },
-  { id: 'unit-5', projectId: 'project-heights', unitNumber: 'R-0201', unitType: 'Retail', status: 'booked' },
-  { id: 'unit-6', projectId: 'project-greens', unitNumber: 'E-1103', unitType: '3 BHK', status: 'booked' },
-  { id: 'unit-7', projectId: 'project-heights', unitNumber: 'A-1702', unitType: '4 BHK', status: 'booked' },
-  { id: 'unit-8', projectId: 'project-greens', unitNumber: 'R-0104', unitType: 'Retail', status: 'booked' },
-]
-
-function collectionCase(
-  index: number,
-  amountDue: number,
-  amountCollected: number,
-  expectedCollectionDate: string,
-  probability: number,
-  delayReason: CollectionCase['delayReason'],
-  recommendedAction: CollectionCase['recommendedAction'],
-  stage: CollectionCase['stage'],
+function toCollectionCase(
+  item: (typeof DEMO_COLLECTION_RECOVERY_ITEMS)[number],
 ): CollectionCase {
-  const unit = units[index]
+  const customer = DEMO_CUSTOMERS.find(
+    (candidate) => candidate.id === item.customerId,
+  )
+  const project = DEMO_PROJECTS.find(
+    (candidate) => candidate.id === item.projectId,
+  )
+  const unit = DEMO_UNITS.find((candidate) => candidate.id === item.unitId)
+
+  if (!customer || !project || !unit) {
+    throw new Error(`Collection demo data is incomplete for ${item.id}.`)
+  }
 
   return {
-    id: `collection-case-${index + 1}`,
-    customer: customers[index],
-    project:
-      projects.find((project) => project.id === unit.projectId) ?? projects[0],
+    id: item.id,
+    customer,
+    project,
     unit,
-    amountDue: { amountMinor: amountDue, currency: INR },
-    expectedCollectionDate,
-    probability,
-    delayReason,
-    recommendedAction,
-    stage,
-    amountCollected: { amountMinor: amountCollected, currency: INR },
+    amountDue: { amountMinor: item.amountDueMinor, currency: DEMO_CURRENCY },
+    expectedCollectionDate: item.expectedCollectionDate,
+    probability: item.probability,
+    delayReason: item.delayReason,
+    recommendedAction: item.recommendedAction,
+    stage: item.stage,
+    amountCollected: {
+      amountMinor: item.amountCollectedMinor,
+      currency: DEMO_CURRENCY,
+    },
   }
 }
 
-export const COLLECTION_CASES: CollectionCase[] = [
-  collectionCase(0, 8_500_000, 0, '2026-06-19T12:00:00.000Z', 0.85, 'Payment Awaited', 'Call Customer', 'Customer Committed'),
-  collectionCase(1, 12_000_000, 0, '2026-06-19T15:00:00.000Z', 0.65, 'Loan Processing', 'Call Banker', 'Loan Processing'),
-  collectionCase(2, 7_250_000, 2_500_000, '2026-06-20T00:00:00.000Z', 0.75, 'Registration Pending', 'Schedule Registration', 'Registration Scheduled'),
-  collectionCase(3, 5_800_000, 0, '2026-06-18T00:00:00.000Z', 0.4, 'Customer Delay', 'Sales Follow-up', 'Demand Raised'),
-  collectionCase(4, 18_500_000, 0, '2026-06-21T00:00:00.000Z', 0.3, 'Legal Issue', 'Legal Follow-up', 'Demand Raised'),
-  collectionCase(5, 6_400_000, 6_400_000, '2026-06-19T10:00:00.000Z', 1, 'Payment Awaited', 'Call Customer', 'Allocated'),
-  collectionCase(6, 9_750_000, 0, '2026-06-24T00:00:00.000Z', 0.7, 'Documentation Pending', 'Sales Follow-up', 'Customer Committed'),
-  collectionCase(7, 14_200_000, 8_000_000, '2026-06-27T00:00:00.000Z', 0.9, 'Payment Awaited', 'Call Customer', 'Payment Received'),
-]
+export const COLLECTION_CASES: CollectionCase[] =
+  DEMO_COLLECTION_RECOVERY_ITEMS.map(toCollectionCase)
 
 export const COLLECTIONS_SAMPLE_INPUT: CollectionsInput = {
-  groupId: 'group-aurora',
-  reportingCurrency: INR,
-  asOfDate: '2026-06-19T09:00:00.000Z',
-  todayTarget: { amountMinor: 30_000_000, currency: INR },
-  monthTarget: { amountMinor: 100_000_000, currency: INR },
+  groupId: DEMO_GROUP_ID,
+  reportingCurrency: DEMO_CURRENCY,
+  asOfDate: DEMO_AS_OF_DATE,
+  todayTarget: { amountMinor: 30_000_000, currency: DEMO_CURRENCY },
+  monthTarget: { amountMinor: 100_000_000, currency: DEMO_CURRENCY },
   collectionCases: COLLECTION_CASES,
 }

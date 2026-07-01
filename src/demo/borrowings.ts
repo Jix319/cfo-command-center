@@ -1,0 +1,52 @@
+import type { CreditFacility } from '../domain/entities/CreditFacility'
+import { DEMO_CURRENCY } from './group'
+
+export const DEMO_CREDIT_FACILITIES: CreditFacility[] = [
+  {
+    id: 'facility-corporate-od',
+    legalEntityId: 'entity-shubhashish-corporate',
+    lender: 'HDFC Bank',
+    facilityType: 'overdraft',
+    sanctionedLimit: { amountMinor: 300_000_000, currency: DEMO_CURRENCY },
+    utilizedAmount: { amountMinor: 210_000_000, currency: DEMO_CURRENCY },
+    interestRate: { basisPoints: 1075 },
+    maturityDate: '2027-03-31T00:00:00.000Z',
+    status: 'active',
+  },
+  {
+    id: 'facility-geeta-cc',
+    legalEntityId: 'entity-shubhashish-homes',
+    projectId: 'project-geeta',
+    lender: 'ICICI Bank',
+    facilityType: 'working_capital',
+    sanctionedLimit: { amountMinor: 240_000_000, currency: DEMO_CURRENCY },
+    utilizedAmount: { amountMinor: 150_000_000, currency: DEMO_CURRENCY },
+    interestRate: { basisPoints: 1115 },
+    maturityDate: '2027-06-30T00:00:00.000Z',
+    status: 'active',
+  },
+  {
+    id: 'facility-prakash-dlod',
+    legalEntityId: 'entity-shubhashish-builders',
+    projectId: 'project-prakash',
+    lender: 'Axis Bank',
+    facilityType: 'term_loan',
+    sanctionedLimit: { amountMinor: 500_000_000, currency: DEMO_CURRENCY },
+    utilizedAmount: { amountMinor: 320_000_000, currency: DEMO_CURRENCY },
+    interestRate: { basisPoints: 1210 },
+    maturityDate: '2028-09-30T00:00:00.000Z',
+    status: 'active',
+  },
+  {
+    id: 'facility-forest-term-loan',
+    legalEntityId: 'entity-shubhashish-estates',
+    projectId: 'project-forest',
+    lender: 'State Bank of India',
+    facilityType: 'term_loan',
+    sanctionedLimit: { amountMinor: 420_000_000, currency: DEMO_CURRENCY },
+    utilizedAmount: { amountMinor: 280_000_000, currency: DEMO_CURRENCY },
+    interestRate: { basisPoints: 1190 },
+    maturityDate: '2029-03-31T00:00:00.000Z',
+    status: 'active',
+  },
+]
