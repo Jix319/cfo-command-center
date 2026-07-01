@@ -16,6 +16,7 @@ export const ROUTE_DEFINITIONS: RouteDefinition[] = [
   { path: '/treasury', label: 'Treasury', icon: CreditCard, breadcrumb: ['Dashboard', 'Treasury'] },
   { path: '/compliance', label: 'Compliance', icon: ShieldCheck, breadcrumb: ['Dashboard', 'Compliance'] },
   { path: '/reports', label: 'Reports', icon: BarChart2, breadcrumb: ['Dashboard', 'Reports'] },
+  { path: '/scenario-simulator', label: 'Scenario Simulator', icon: BarChart2, breadcrumb: ['Dashboard', 'Reports', 'Scenario Simulator'] },
   { path: '/upload', label: 'Upload', icon: Upload, breadcrumb: ['Dashboard', 'Upload'] },
   { path: '/settings', label: 'Settings', icon: Settings, breadcrumb: ['Dashboard', 'Settings'] },
 ]

@@ -313,3 +313,155 @@ Cash Flow
 ↓
 
 Operational Widgets
+
+# Finance OS - Handoff
+
+## Product
+
+Finance OS for Real Estate CFOs.
+
+Purpose:
+
+Observe
+Analyze
+Decide
+Act
+
+Focus:
+
+Collections
+Treasury
+Liquidity
+Blocked Cash
+RERA
+Cash Flow
+
+---
+
+## Architecture
+
+Domain
+↓
+Engines
+↓
+Pages
+↓
+UI
+
+RULE:
+
+Business logic belongs in engines.
+
+Pages are orchestration only.
+
+UI components contain no business logic.
+
+---
+
+## Core Engines
+
+Collections Engine
+
+Liquidity Engine
+
+Bank Position Engine
+
+Blocked Cash Engine
+
+Treasury Engine
+
+Morning Brief Engine
+
+Scenario Simulator Engine
+
+---
+
+## Shared Dataset
+
+Location:
+
+src/demo/
+
+Contains:
+
+Group
+Projects
+Customers
+Bookings
+Collections
+Bank Accounts
+Borrowings
+RERA
+Vendors
+Invoices
+Payments
+
+All engines consume shared demo data.
+
+---
+
+## Completed
+
+PR-017 Treasury Command Center
+
+PR-018 Shared Enterprise Dataset
+
+PR-019 Import Centre
+
+PR-020 Morning Brief
+
+PR-021 Scenario Simulator
+(Engine + UI complete)
+
+---
+
+## Current Technical Debt
+
+Scenario Simulator page exists.
+
+Navigation route not yet wired.
+
+Reason:
+
+Routing modifications were excluded from PR-021.
+
+Next PR:
+
+PR-021A
+Wire Scenario Simulator route.
+
+---
+
+## Current Priority
+
+After PR-021A:
+
+PR-022 Real Estate Control Tower
+
+Modules:
+
+Projects
+Escrow
+RERA
+Landowners
+Construction Progress
+Inventory
+Project Cash Flow
+
+---
+
+## Rules
+
+Do not introduce backend.
+
+Do not introduce APIs.
+
+Do not introduce Redux.
+
+Do not duplicate engine calculations.
+
+Morning Brief consumes engine outputs.
+
+Scenario Simulator consumes engine outputs.
+
+Build and lint must pass.

@@ -7,6 +7,7 @@ import CollectionsPage from './pages/Collections/CollectionsPage'
 import TreasuryPage from './pages/Treasury/TreasuryPage'
 import CompliancePage from './pages/Compliance/CompliancePage'
 import ReportsPage from './pages/Reports/ReportsPage'
+import ScenarioSimulatorPage from './pages/ScenarioSimulator/ScenarioSimulatorPage'
 import UploadPage from './pages/Upload/UploadPage'
 import SettingsPage from './pages/Settings/SettingsPage'
 
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="treasury" element={<TreasuryPage />} />
           <Route path="compliance" element={<CompliancePage />} />
           <Route path="reports" element={<ReportsPage />} />
+          <Route path="scenario-simulator" element={<ScenarioSimulatorPage />} />
           <Route path="upload" element={<UploadPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>

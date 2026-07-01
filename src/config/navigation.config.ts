@@ -55,6 +55,12 @@ export const NAV_ITEMS: NavItem[] = [
     icon: 'FileText',
   },
   {
+    id: 'scenario-simulator',
+    label: 'Scenario Simulator',
+    path: '/scenario-simulator',
+    icon: 'FileText',
+  },
+  {
     id: 'settings',
     label: 'Settings',
     path: '/settings',

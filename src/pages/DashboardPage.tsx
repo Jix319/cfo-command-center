@@ -11,6 +11,15 @@ import RiskList from '../components/controlTower/RiskList'
 import CollectionsSummaryCard from '../components/collections/CollectionsSummaryCard'
 import TreasurySummaryCard from '../components/treasury/TreasurySummaryCard'
 import ImportStatusCard from '../components/imports/ImportStatusCard'
+import MorningBriefActions from '../components/morningBrief/MorningBriefActions'
+import MorningBriefCard from '../components/morningBrief/MorningBriefCard'
+import MorningBriefRisks from '../components/morningBrief/MorningBriefRisks'
+import MorningBriefSummary from '../components/morningBrief/MorningBriefSummary'
+import ScenarioImpactCard from '../components/scenarioSimulator/ScenarioImpactCard'
+import { morningBriefEngine } from '../engines/morningBrief/morningBriefEngine'
+import { MORNING_BRIEF_SAMPLE_INPUT } from '../engines/morningBrief/sampleData'
+import { scenarioSimulatorEngine } from '../engines/scenarioSimulator/scenarioSimulatorEngine'
+import { SCENARIO_SIMULATOR_SAMPLE_INPUT } from '../engines/scenarioSimulator/sampleData'
 import { SAMPLE_IMPORT_HISTORY } from '../imports/sampleTemplates'
 import {
   useBankPosition,
@@ -27,6 +36,10 @@ export default function DashboardPage(): ReactElement {
   const blockedCash = useBlockedCash()
   const collections = useCollections()
   const treasury = useTreasury()
+  const morningBrief = morningBriefEngine.evaluate(MORNING_BRIEF_SAMPLE_INPUT)
+  const scenarioSimulator = scenarioSimulatorEngine.evaluate(
+    SCENARIO_SIMULATOR_SAMPLE_INPUT,
+  )
   const financeHealth = useFinanceHealth(
     blockedCash.score.value,
     bankPosition.score.value,
@@ -39,6 +52,49 @@ export default function DashboardPage(): ReactElement {
         title="Executive Control Tower"
         subtitle="Group financial health, liquidity, risks, and actions"
       />
+
+      <MorningBriefCard brief={morningBrief}>
+        <MorningBriefSummary brief={morningBrief} />
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
+            What Changed
+          </h3>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+            {morningBrief.changes.slice(0, 4).map((change) => (
+              <div
+                key={change.id}
+                className="rounded-lg border border-slate-200 p-4 dark:border-slate-700"
+              >
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                  {change.title}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                  {change.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <MorningBriefRisks
+            title="Top Risks"
+            items={morningBrief.risks}
+            currency={morningBrief.currency}
+            mode="risks"
+          />
+          <MorningBriefRisks
+            title="Top Opportunities"
+            items={morningBrief.opportunities}
+            currency={morningBrief.currency}
+            mode="opportunities"
+          />
+          <MorningBriefActions
+            actions={morningBrief.actions}
+            priorityAction={morningBrief.todayPriority}
+            currency={morningBrief.currency}
+          />
+        </div>
+      </MorningBriefCard>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
         <div className="md:col-span-4">
@@ -74,6 +130,13 @@ export default function DashboardPage(): ReactElement {
         </div>
         <div className="md:col-span-4">
           <ImportStatusCard latestImport={SAMPLE_IMPORT_HISTORY[0]} />
+        </div>
+        <div className="md:col-span-4">
+          <ScenarioImpactCard
+            result={scenarioSimulator.bestScenario}
+            currency={scenarioSimulator.currency}
+            compact
+          />
         </div>
         <div className="md:col-span-4">
           <DecisionList
