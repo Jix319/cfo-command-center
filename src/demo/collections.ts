@@ -21,6 +21,16 @@ export interface DemoCollectionRecoveryItem {
   amountCollectedMinor: number
 }
 
+export interface DemoCashInflowForecast {
+  id: string
+  legalEntityId: string
+  projectId?: string
+  description: string
+  expectedDate: string
+  amountMinor: number
+  confidence: 'committed' | 'probable' | 'possible'
+}
+
 export const DEMO_COLLECTIONS: Collection[] = [
   {
     id: 'collection-priya-token',
@@ -159,7 +169,7 @@ export const DEMO_COLLECTION_RECOVERY_ITEMS: DemoCollectionRecoveryItem[] = [
   },
 ]
 
-export const DEMO_CASH_INFLOW_FORECASTS = [
+export const DEMO_CASH_INFLOW_FORECASTS: DemoCashInflowForecast[] = [
   {
     id: 'inflow-customer-commitments-week',
     legalEntityId: 'entity-shubhashish-homes',
@@ -195,4 +205,4 @@ export const DEMO_CASH_INFLOW_FORECASTS = [
     amountMinor: 300_000_000,
     confidence: 'committed',
   },
-] as const
+]

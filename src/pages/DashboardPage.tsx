@@ -15,9 +15,12 @@ import MorningBriefActions from '../components/morningBrief/MorningBriefActions'
 import MorningBriefCard from '../components/morningBrief/MorningBriefCard'
 import MorningBriefRisks from '../components/morningBrief/MorningBriefRisks'
 import MorningBriefSummary from '../components/morningBrief/MorningBriefSummary'
+import ProjectHealthCard from '../components/projectControl/ProjectHealthCard'
 import ScenarioImpactCard from '../components/scenarioSimulator/ScenarioImpactCard'
 import { morningBriefEngine } from '../engines/morningBrief/morningBriefEngine'
 import { MORNING_BRIEF_SAMPLE_INPUT } from '../engines/morningBrief/sampleData'
+import { projectControlEngine } from '../engines/projectControl/projectControlEngine'
+import { PROJECT_CONTROL_SAMPLE_INPUT } from '../engines/projectControl/sampleData'
 import { scenarioSimulatorEngine } from '../engines/scenarioSimulator/scenarioSimulatorEngine'
 import { SCENARIO_SIMULATOR_SAMPLE_INPUT } from '../engines/scenarioSimulator/sampleData'
 import { SAMPLE_IMPORT_HISTORY } from '../imports/sampleTemplates'
@@ -39,6 +42,9 @@ export default function DashboardPage(): ReactElement {
   const morningBrief = morningBriefEngine.evaluate(MORNING_BRIEF_SAMPLE_INPUT)
   const scenarioSimulator = scenarioSimulatorEngine.evaluate(
     SCENARIO_SIMULATOR_SAMPLE_INPUT,
+  )
+  const projectControl = projectControlEngine.evaluate(
+    PROJECT_CONTROL_SAMPLE_INPUT,
   )
   const financeHealth = useFinanceHealth(
     blockedCash.score.value,
@@ -137,6 +143,9 @@ export default function DashboardPage(): ReactElement {
             currency={scenarioSimulator.currency}
             compact
           />
+        </div>
+        <div className="md:col-span-4">
+          <ProjectHealthCard summary={projectControl} compact />
         </div>
         <div className="md:col-span-4">
           <DecisionList
