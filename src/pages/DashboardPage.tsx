@@ -10,6 +10,8 @@ import OpportunityList from '../components/controlTower/OpportunityList'
 import RiskList from '../components/controlTower/RiskList'
 import CollectionsSummaryCard from '../components/collections/CollectionsSummaryCard'
 import TreasurySummaryCard from '../components/treasury/TreasurySummaryCard'
+import ImportStatusCard from '../components/imports/ImportStatusCard'
+import { SAMPLE_IMPORT_HISTORY } from '../imports/sampleTemplates'
 import {
   useBankPosition,
   useFinanceHealth,
@@ -69,6 +71,9 @@ export default function DashboardPage(): ReactElement {
         </div>
         <div className="md:col-span-4">
           <TreasurySummaryCard summary={treasury.output} compact />
+        </div>
+        <div className="md:col-span-4">
+          <ImportStatusCard latestImport={SAMPLE_IMPORT_HISTORY[0]} />
         </div>
         <div className="md:col-span-4">
           <DecisionList
